@@ -12,6 +12,8 @@ jobs:
     # Clone is necessary in any event to calculate a hash for the cache key
     name: Build v8
     runs-on: windows-latest
+    env:
+      STPYV8_DEBUG: 1
     outputs:
       v8-hash: ${{ steps.build-v8.outputs.v8-hash }}
     steps:
