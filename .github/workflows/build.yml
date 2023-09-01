@@ -21,7 +21,7 @@ jobs:
         id: install-python
         uses: actions/setup-python@v4
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: 3
 
       - name: Clone v8
         run: |
