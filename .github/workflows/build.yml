@@ -88,7 +88,6 @@ jobs:
       - name: Install boost
         uses: MarkusJx/install-boost@main
         if: ${{ runner.os == 'Windows' }}
-        id: install-boost
         with:
           link: static
           boost_version: 1.81.0
@@ -99,7 +98,6 @@ jobs:
       - name: Install boost
         uses: MarkusJx/install-boost@main
         if: ${{ runner.os != 'Windows' }}
-        id: install-boost
         with:
           link: static
           boost_version: 1.81.0
