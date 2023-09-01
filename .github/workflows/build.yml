@@ -35,9 +35,8 @@ jobs:
           key: ${{ runner.os }}-build-v8-${{ hashFiles('v8/src/**') }}
 
       - name: Initialize MSVC environment
-        if: ${{ runner.os == 'Windows' }}
+        if: ${{ steps.restore-v8.outputs.cache-hit != 'true' && runner.os == 'Windows' }}
         uses: ilammy/msvc-dev-cmd@v1
-        if: ${{ steps.restore-v8.outputs.cache-hit != 'true' }}
 
       - name: Build v8
         id: build-v8
