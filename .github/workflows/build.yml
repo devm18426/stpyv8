@@ -3,7 +3,7 @@ name: Build
 on: [push, pull_request]
 
 env:
-  BOOST_ROOT: boost
+  BOOST_VERSION: 1.83.0
 
 jobs:
   build-v8:
@@ -95,22 +95,13 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Install boost
+        id: install-boost
         uses: MarkusJx/install-boost@main
-        if: ${{ runner.os == 'Windows' }}
         with:
           link: static
-          boost_version: 1.81.0
-          boost_install_dir: ${{ env.BOOST_ROOT }}
+          boost_version: ${{ env.BOOST_VERSION }}
           platform_version: 2022
-          toolset: msvc
-
-      - name: Install boost
-        uses: MarkusJx/install-boost@main
-        if: ${{ runner.os != 'Windows' }}
-        with:
-          link: static
-          boost_version: 1.81.0
-          boost_install_dir: ${{ env.BOOST_ROOT }}
+          toolset: ${{ fromJSON('["gcc", "msvc"]')[matrix.os == 'Windows'] }}
 
       - name: Restore v8 from cache
         id: restore-v8
@@ -125,7 +116,7 @@ jobs:
       - name: STEP 5. Build wheel
         env:
           # Set include and library files which will be picked up by setuptools
-          INCLUDE: ${{ env.INCLUDE }};${{ steps.install-python.outputs.python-path }}/include;${{ env.BOOST_ROOT }}
+          INCLUDE: ${{ steps.install-boost.outputs.BOOST_ROOT }}
         shell: bash
         run: |
           if [ ${{ matrix.debug }} ]; then
