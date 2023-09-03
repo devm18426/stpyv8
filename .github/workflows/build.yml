@@ -131,7 +131,7 @@ jobs:
             export STPYV8_DEBUG=1
           fi
           
-          if [ ${{ runner.os }} -ne "Windows" ]; then
+          if [ ${{ runner.os }} != "Windows" ]; then
             export V8_DEPS_LINUX=0
             export LDFLAGS="-L/usr/lib -L/usr/lib/x86_64-linux-gnu"
           fi
