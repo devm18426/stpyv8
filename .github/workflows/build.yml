@@ -124,7 +124,7 @@ jobs:
       - name: STEP 5. Build wheel
         env:
           # Set include and library files which will be picked up by setuptools
-          INCLUDE: ${{ steps.install-boost.outputs.BOOST_ROOT }}
+          INCLUDE: ${{ steps.install-boost.outputs.BOOST_ROOT }}/include
         shell: bash
         run: |
           if [ ${{ matrix.debug }} ]; then
