@@ -78,9 +78,17 @@ jobs:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
         python-version: ['3.8', '3.9', '3.10', '3.11']
-        boost-version: ['1.83.0']
-        boost-version-snake: ['1_83_0']
         debug: [true, false]
+      include:
+        - os: ubuntu-latest
+          toolset: gcc
+          platform-version: 22.04
+        - os: macos-latest
+          toolset: clang
+          platform-version: 12
+        - os: windows-latest
+          toolset: msvc
+          platform-version: 2022
     env:
       DIST_NAME: stpyv8-windows-py${{ matrix.python-version }}${{ fromJSON('["", "-debug"]')[matrix.debug] }}
 
@@ -100,8 +108,8 @@ jobs:
         with:
           link: static
           boost_version: ${{ env.BOOST_VERSION }}
-          platform_version: 2022
-          toolset: ${{ fromJSON('["gcc", "msvc"]')[matrix.os == 'Windows'] }}
+          platform_version: ${{ matrix.platform-version }}
+          toolset: ${{ matrix.toolset }}
 
       - name: Restore v8 from cache
         id: restore-v8
